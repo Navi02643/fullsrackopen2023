@@ -1,69 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 
-const Header = (props) => {
+const Buttons = (props) => {
+  return <button>{props["label"]}</button>;
+};
+
+const FeedBack = (props) => {
+  const buttons = props["info"].map((info, index) => {
+    return <Buttons key={index} label={info["label"]} />;
+  });
+
   return (
     <div>
-      <h1>{props["course"]}</h1>
+      <h1>{props["feedbacktext"]}</h1>
+      {buttons}
     </div>
   );
 };
 
-const Part = (props) => {
+const Info = (props) => {
   return (
-    <div>
-      <p>
-        {props["part"]} {props["exercises"]}
-      </p>
-    </div>
+    <p>
+      {props["label"]} {props["number"]}
+    </p>
   );
 };
 
-const Content = (props) => {
-  const parts = props.parts.map((part, index) => (
-    <Part key={index} part={part["name"]} exercises={part["exercises"]} />
-  ));
-
-  return <div>{parts}</div>;
-};
-
-const Total = (props) => {
-  const suma = props.parts.reduce(
-    (total, { exercises }) => total + exercises,
-    0
-  );
-
+const Statics = (props) => {
+  const info = props["info"].map((info, index) => {
+    return <Info key={index} label={info["label"]} number={info["number"]} />;
+  });
   return (
     <div>
-      <p>Number of exercises {suma}</p>
+      <h1>{props["name"]}</h1>
+      {info}
     </div>
   );
 };
 
 const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
-  }
-
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+  const info = {
+    feed: "give feedback",
+    staticsName: "statics",
+    staticsInfo: [
+      { label: "good", number: good },
+      { label: "neutral", number: neutral },
+      { label: "bad", number: bad },
+    ],
+  };
   return (
     <div>
-      <Header course={course["name"]} />
-      <Content parts={course["parts"]} />
-      <Total parts={course["parts"]} />
+      <FeedBack feedbacktext={info["feed"]} info={info["staticsInfo"]} />
+      <Statics name={info["staticsName"]} info={info["staticsInfo"]} />
     </div>
   );
 };
