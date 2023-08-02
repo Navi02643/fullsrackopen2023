@@ -4,12 +4,17 @@ import { createRoot } from "react-dom/client";
 const App = (props) => {
   const [selected, setSelected] = useState(0);
 
+  const selectRandomAnecdote = () => {
+    const randomNumber = Math.floor(Math.random() * props.anecdotes.length);
+    setSelected(randomNumber);
+  };
+
   return (
-  <div>
-    {props.anecdotes[selected]} 
-    <br />
-    <button onClick={()=> {setSelected(selected + 1)}}>next anecdote</button>
-  </div>
+    <div>
+      {props.anecdotes[selected]}
+      <br />
+      <button onClick={selectRandomAnecdote}>next anecdote</button>
+    </div>
   );
 };
 
