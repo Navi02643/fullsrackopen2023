@@ -50,6 +50,38 @@ const App = () => {
     setClicks(newClicks);
   };
 
+  const information = {
+    name: "Statistics",
+    votes: [
+      { name: "good", number: clicks["good"] },
+      { name: "neutral", number: clicks["neutral"] },
+      { name: "bad", number: clicks["bad"] },
+      { name: "total", number: calculateAll() },
+      { name: "average", number: calculateAverage() },
+      { name: "positive", number: calculatePositive() },
+    ],
+  };
+
+  const Part = (props) => {
+    return (
+      <p>
+        {props["name"]}: {props["number"]}
+      </p>
+    );
+  };
+
+  const Statistics = (props) => {
+    const parts = props.info["votes"].map((info, index) => (
+      <Part key={index} name={info["name"]} number={info["number"]} />
+    ));
+    return (
+      <>
+        <h1>{props["info"]["name"]}</h1>
+        {parts}
+      </>
+    );
+  };
+
   return (
     <>
       <h1>Give feedBack</h1>
@@ -57,13 +89,7 @@ const App = () => {
       <button onClick={handleNeutralClick}>Neutral</button>
       <button onClick={handleBadClick}>Bad</button>
 
-      <h1>statics</h1>
-      <p>good: {clicks["good"]}</p>
-      <p>neutral: {clicks["neutral"]}</p>
-      <p>bad: {clicks["bad"]}</p>
-      <p>All: {calculateAll()}</p>
-      <p>Average: {calculateAverage()}</p>
-      <p>Positive: {calculatePositive()}</p>
+      <Statistics info={information} />
     </>
   );
 };
