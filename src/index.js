@@ -77,7 +77,11 @@ const App = () => {
     return (
       <>
         <h1>{props["info"]["name"]}</h1>
-        {parts}
+        {props["info"]["votes"][3]["number"] > 0 ? (
+          parts
+        ) : (
+          <p>No feedBack given</p>
+        )}
       </>
     );
   };
