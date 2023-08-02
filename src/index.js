@@ -62,23 +62,30 @@ const App = () => {
     ],
   };
 
-  const StatisticLine  = (props) => {
+  const StatisticLine = (props) => {
     return (
-      <p>
-        {props["text"]}: {props["value"]}
-      </p>
+      <tbody>
+        <tr>
+          <td>{props["text"]}:</td>
+          <td> {props["value"]}</td>
+        </tr>
+      </tbody>
     );
   };
 
   const Statistics = (props) => {
     const parts = props.info["votes"].map((info, index) => (
-      <StatisticLine  key={index} text={info["name"]} value={info["number"]} />
+      <StatisticLine key={index} text={info["name"]} value={info["number"]} />
     ));
     return (
       <>
         <h1>{props["info"]["name"]}</h1>
         {props["info"]["votes"][3]["number"] > 0 ? (
-          parts
+          <table>
+            <thead></thead>
+            { parts }
+            <tfoot></tfoot>
+          </table>
         ) : (
           <p>No feedBack given</p>
         )}
