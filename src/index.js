@@ -62,17 +62,17 @@ const App = () => {
     ],
   };
 
-  const Part = (props) => {
+  const StatisticLine  = (props) => {
     return (
       <p>
-        {props["name"]}: {props["number"]}
+        {props["text"]}: {props["value"]}
       </p>
     );
   };
 
   const Statistics = (props) => {
     const parts = props.info["votes"].map((info, index) => (
-      <Part key={index} name={info["name"]} number={info["number"]} />
+      <StatisticLine  key={index} text={info["name"]} value={info["number"]} />
     ));
     return (
       <>
@@ -87,14 +87,14 @@ const App = () => {
   };
 
   return (
-    <>
+    <div>
       <h1>Give feedBack</h1>
       <button onClick={handleGoodClick}>Good</button>
       <button onClick={handleNeutralClick}>Neutral</button>
       <button onClick={handleBadClick}>Bad</button>
 
       <Statistics info={information} />
-    </>
+    </div>
   );
 };
 
