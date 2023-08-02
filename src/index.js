@@ -3,10 +3,11 @@ import { createRoot } from "react-dom/client";
 
 const App = (props) => {
   const [selected, setSelected] = useState(0);
-  const [anecdoteVote, setVote] = useState({ 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 });
+  const [anecdoteVote, setVote] = useState({ 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5:0 });
 
   const selectRandomAnecdote = () => {
     const randomNumber = Math.floor(Math.random() * props.anecdotes.length);
+    console.log({randomNumber});
     setSelected(randomNumber);
   };
 
@@ -16,14 +17,39 @@ const App = (props) => {
       [selected]: anecdoteVote[selected] + 1,
     });
   }
+
+  const findMostVotedAnecdote = (anecdoteVote) => {
+    let maxVotes = 0;
+    let mostVotedAnecdote = null;
   
+    for (const key in anecdoteVote) {
+      const votes = anecdoteVote[key];
+      if (votes > maxVotes) {
+        maxVotes = votes;
+        mostVotedAnecdote = parseInt(key); // Convertir la clave a número
+      }
+    }
+  
+    return mostVotedAnecdote;
+  };
+
+  const mostVotedAnecdoteIndex = findMostVotedAnecdote(anecdoteVote);
+
   return (
     <div>
-      {props.anecdotes[selected]}
-      <br />
+      <h2>Anecdote of the day</h2>
+      <p>{props.anecdotes[selected]}</p>
       <p>Has {anecdoteVote[selected]} votes</p>
       <button onClick={() => handleVote(selected)}>Vote</button>
       <button onClick={selectRandomAnecdote}>next anecdote</button>
+      <hr />
+       <h2>Anecdote with Most Votes</h2>
+      {mostVotedAnecdoteIndex !== null && (
+        <>
+          <p>{props.anecdotes[mostVotedAnecdoteIndex]}</p>
+          <p>Has {anecdoteVote[mostVotedAnecdoteIndex]} votes</p>
+        </>
+      )}
     </div>
   );
 };
