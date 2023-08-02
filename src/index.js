@@ -1,108 +1,27 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 
-const App = () => {
-  const [clicks, setClicks] = useState({ good: 0, neutral: 0, bad: 0 });
-
-  const calculateAll = () => {
-    return clicks.good + clicks.neutral + clicks.bad;
-  };
-
-  const calculateAverage = () => {
-    const total = calculateAll();
-    const average = (clicks.good - clicks.bad) / total;
-    return average || 0;
-  };
-  const calculatePositive = () => {
-    const total = calculateAll();
-    if (total === 0) {
-      return 0;
-    }
-    const percentage = (clicks.good / total) * 100;
-    return percentage;
-  };
-
-  const handleGoodClick = () => {
-    calculateAverage();
-    const newClicks = {
-      good: clicks["good"] + 1,
-      neutral: clicks["neutral"],
-      bad: clicks["bad"],
-    };
-    setClicks(newClicks);
-  };
-
-  const handleNeutralClick = () => {
-    const newClicks = {
-      good: clicks["good"],
-      neutral: clicks["neutral"] + 1,
-      bad: clicks["bad"],
-    };
-    setClicks(newClicks);
-  };
-
-  const handleBadClick = () => {
-    const newClicks = {
-      good: clicks["good"],
-      neutral: clicks["neutral"],
-      bad: clicks["bad"] + 1,
-    };
-    setClicks(newClicks);
-  };
-
-  const information = {
-    name: "Statistics",
-    votes: [
-      { name: "good", number: clicks["good"] },
-      { name: "neutral", number: clicks["neutral"] },
-      { name: "bad", number: clicks["bad"] },
-      { name: "total", number: calculateAll() },
-      { name: "average", number: calculateAverage() },
-      { name: "positive", number: calculatePositive() },
-    ],
-  };
-
-  const StatisticLine = (props) => {
-    return (
-      <tbody>
-        <tr>
-          <td>{props["text"]}:</td>
-          <td> {props["value"]}</td>
-        </tr>
-      </tbody>
-    );
-  };
-
-  const Statistics = (props) => {
-    const parts = props.info["votes"].map((info, index) => (
-      <StatisticLine key={index} text={info["name"]} value={info["number"]} />
-    ));
-    return (
-      <>
-        <h1>{props["info"]["name"]}</h1>
-        {props["info"]["votes"][3]["number"] > 0 ? (
-          <table>
-            <thead></thead>
-            { parts }
-            <tfoot></tfoot>
-          </table>
-        ) : (
-          <p>No feedBack given</p>
-        )}
-      </>
-    );
-  };
+const App = (props) => {
+  const [selected, setSelected] = useState(0);
 
   return (
-    <div>
-      <h1>Give feedBack</h1>
-      <button onClick={handleGoodClick}>Good</button>
-      <button onClick={handleNeutralClick}>Neutral</button>
-      <button onClick={handleBadClick}>Bad</button>
-
-      <Statistics info={information} />
-    </div>
+  <div>
+    {props.anecdotes[selected]} 
+    <br />
+    <button onClick={()=> {setSelected(selected + 1)}}>next anecdote</button>
+  </div>
   );
 };
 
-createRoot(document.getElementById("root")).render(<App />);
+const anecdotes = [
+  "If it hurts, do it more often",
+  "Adding manpower to a late software project makes it later!",
+  "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
+  "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+  "Premature optimization is the root of all evil.",
+  "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
+];
+
+createRoot(document.getElementById("root")).render(
+  <App anecdotes={anecdotes} />
+);
