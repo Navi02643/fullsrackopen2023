@@ -1,30 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 
-const Header = ({ name }) => {
-  return (<h1>{name}</h1>)
-}
-
-const Part = ({ name, exercises }) => {
-  return <p>{name} {exercises}</p>
-}
-
-const Content = ({ part }) => {
-  const suma = part.reduce((acumulador, valorActual) => acumulador + valorActual.exercises, 0);
-
-  const parts = part.map(item => <Part key={item["id"]} name={item["name"]} exercises={item["exercises"]} />)
-  return (
-    <>
-      {parts}
-      <strong>Total of {suma} exercises</strong>
-    </>);
-}
-
-const Course = ({ courses }) => {
-  console.log(courses)
-  const course = courses.map(course => <><Header name={course["name"]} /><Content part={course["parts"]} /></>)
-  return course
-}
+import Course from "./course"
 
 const App = () => {
   const courses = [
